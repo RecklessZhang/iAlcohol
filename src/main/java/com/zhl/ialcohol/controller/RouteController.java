@@ -5,6 +5,7 @@ import com.zhl.ialcohol.service.IPostService;
 import com.zhl.ialcohol.service.ITagService;
 import com.zhl.ialcohol.vo.response.CategoryPostVO;
 import com.zhl.ialcohol.vo.response.LatestPostVO;
+import com.zhl.ialcohol.vo.response.PostInfoVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class RouteController {
      * @return:
     */
     @GetMapping(value = {"/", "/home", "/index"})
-    public String routeToHome(@RequestParam String tmp, Model model) {
+    public String routeToHome(Model model) {
         // 从内存中获取菜单
         model.addAttribute("menus", Constant.menuTree);
         // 获取首页文章列表
@@ -54,8 +55,7 @@ public class RouteController {
         model.addAttribute("tags", tags);
 
         Integer pageNum = new Random().nextInt(5) + 1;
-
-        return "index-" + tmp;
+        return "index-" + pageNum;
     }
 
     /***
@@ -86,9 +86,14 @@ public class RouteController {
     public String routeToPost(@PathVariable Integer postId, Model model) {
         // 从内存中获取菜单
         model.addAttribute("menus", Constant.menuTree);
+        // 获取所有标签列表
+        List<String> tags = tagService.getUndeletedTags();
+        model.addAttribute("tags", tags);
+        // 获取文章详情
+        PostInfoVO postInfoVO = postService.getPostInfoById(postId);
+        model.addAttribute("postInfo", postInfoVO);
 
-        model.addAttribute("test", "123");
-
-        return "post-" + postId;
+        Integer pageNum = (postId % 3) + 1;
+        return "post-" + pageNum;
     }
 }

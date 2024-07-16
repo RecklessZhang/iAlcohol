@@ -11,6 +11,7 @@ import com.zhl.ialcohol.service.IPostService;
 import com.zhl.ialcohol.util.BeanCopyUtil;
 import com.zhl.ialcohol.vo.response.CategoryPostVO;
 import com.zhl.ialcohol.vo.response.LatestPostVO;
+import com.zhl.ialcohol.vo.response.PostInfoVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,6 +51,16 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     @Resource
     public void setMenuMapper(MenuMapper menuMapper) {
         this.menuMapper = menuMapper;
+    }
+    private TagMapper tagMapper;
+    @Resource
+    public void setTagMapper(TagMapper tagMapper) {
+        this.tagMapper = tagMapper;
+    }
+    private PostTagMapper postTagMapper;
+    @Resource
+    public void setPostTagMapper(PostTagMapper postTagMapper) {
+        this.postTagMapper = postTagMapper;
     }
 
 
@@ -150,5 +161,82 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
 
 
         return categoryPostVO;
+    }
+
+    /***
+     * description: 根据postId构建PostInfoVO
+     * @author: ZhangHL
+     * @param postId
+     * @return:
+    */
+    public PostInfoVO buildPostInfoVOByPostId(Integer postId) {
+        Post post = postMapper.selectOneById(postId);
+        PostInfoVO postInfoVO = BeanCopyUtil.INSTANCE.postToPostInfoVO(post);
+
+        QueryWrapper menuPostWrapper = QueryWrapper.create()
+                .where(MenuPostTableDef.MENU_POST.POST_ID.eq(postId));
+        List<MenuPost> menuPostList = menuPostMapper.selectListByQuery(menuPostWrapper);
+        if (menuPostList.size() > 0) {
+            // 文章分类
+            QueryWrapper menuWrapper = QueryWrapper.create()
+                    .where(MenuTableDef.MENU.ID.in(
+                            menuPostList.stream().map(MenuPost::getMenuId).collect(Collectors.toList())
+                    ));
+            List<Menu> menuList = menuMapper.selectListByQuery(menuWrapper);
+            postInfoVO.setCategory(menuList.get(0).getName());
+
+            // 图片集
+            QueryWrapper postFileWrapper = QueryWrapper.create()
+                    .where(PostFileTableDef.POST_FILE.POST_ID.eq(post.getId()));
+            List<PostFile> postFileList = postFileMapper.selectListByQuery(postFileWrapper);
+            if (postFileList.size() > 0) {
+                QueryWrapper fileWrapper = QueryWrapper.create()
+                        .where(FileTableDef.FILE.ID.in(
+                                postFileList.stream().map(PostFile::getFileId).collect(Collectors.toList())
+                        ));
+                List<File> fileList = fileMapper.selectListByQuery(fileWrapper);
+                postInfoVO.setImageList(fileList.stream().map(file -> Constant.globalConfig.getBaseUrl() + file.getUrl()).collect(Collectors.toList()));
+            }
+        }
+
+        // 标签集
+        QueryWrapper postTagWrapper = QueryWrapper.create()
+                .where(PostTagTableDef.POST_TAG.POST_ID.eq(postId));
+        List<PostTag> postTagList = postTagMapper.selectListByQuery(postTagWrapper);
+        if (postTagList.size() > 0) {
+            QueryWrapper tagWrapper = QueryWrapper.create()
+                    .where(TagTableDef.TAG.ID.in(
+                            postTagList.stream().map(PostTag::getTagId).collect(Collectors.toList())
+                    ));
+            List<Tag> tagList = tagMapper.selectListByQuery(tagWrapper);
+            postInfoVO.setTagList(tagList.stream().map(Tag::getName).collect(Collectors.toList()));
+        }
+
+        return postInfoVO;
+    }
+
+    /***
+     * description: 获取文章详情
+     * @author: ZhangHL
+     * @param postId
+     * @return:
+    */
+    @Override
+    public PostInfoVO getPostInfoById(Integer postId) {
+        PostInfoVO postInfoVO = buildPostInfoVOByPostId(postId);
+
+        // 上一条
+        if (postId > 1) {
+            PostInfoVO prePostInfoVO = buildPostInfoVOByPostId(postId - 1);
+            postInfoVO.setPrePostInfo(prePostInfoVO);
+        }
+        // 下一条
+        Post nextPost = postMapper.selectOneById(postId + 1);
+        if (nextPost != null) {
+            PostInfoVO nextPostInfo = buildPostInfoVOByPostId(postId + 1);
+            postInfoVO.setNextPostInfo(nextPostInfo);
+        }
+
+        return postInfoVO;
     }
 }

@@ -4,6 +4,7 @@ import com.zhl.ialcohol.entity.Menu;
 import com.zhl.ialcohol.entity.Post;
 import com.zhl.ialcohol.vo.response.LatestPostVO;
 import com.zhl.ialcohol.vo.response.MenuVO;
+import com.zhl.ialcohol.vo.response.PostInfoVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,4 +21,6 @@ public interface BeanCopyUtil {
     MenuVO menuToMenuVO(Menu menu);
 
     LatestPostVO postToLatestPostVO(Post post);
+
+    PostInfoVO postToPostInfoVO(Post post);
 }

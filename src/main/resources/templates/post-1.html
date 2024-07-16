@@ -22,6 +22,12 @@
     <link rel="stylesheet" th:href="@{/css/plugins/swiper.css}">
     <!--================= Style CSS =================-->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .tag-selected {
+            background-color: #ffcc00;;
+        }
+    </style>
 </head>
 
 <body>
@@ -474,7 +480,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="post_title_holder" data-has-format="1">
-                                                        <h3 class="fn__maintitle"><span>It’s Not Just the Passing of a Queen</span></h3>
+                                                        <h3 class="fn__maintitle"><span th:text="${postInfo.title}"></span></h3>
                                                         <div class="fn__meta">
                                                             <p>
                                                                 <span class="meta_item meta_date">
@@ -496,18 +502,17 @@
                                                                             </path>
                                                                         </g>
                                                                     </svg>
-                                                                    Jan 5
+                                                                    <span th:text="${postInfo.recordTime}"></span>
                                                                 </span>
                                                                 <span class="meta_item meta_category">
-                                                                    <a class=" " href="">Lifestyle</a>,&nbsp;
-                                                                    <a class=" fn_last_category" href="">Travel</a>
+                                                                    <a class=" fn_last_category" th:href="@{'/category/' + ${postInfo.category}}" th:text="${postInfo.category}"></a>
                                                                 </span>
                                                                 <span class="meta_item meta_author"><a href="https://blog.qnmdmyy.top" target="_blank">小镇青年</a></span>
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div class="post_content">
-                                                        <div class="post_c_in" th:utext="${test}">
+                                                        <div class="post_c_in" th:utext="${postInfo.content}">
 
                                                         </div>
                                                         <div class="xoxo_fn_reactions">
@@ -559,12 +564,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="xoxo_fn_tags">
-                                                        <ul>
-                                                            <li class="tag_item"><a href="">Blog</a></li>
-                                                            <li class="tag_item"><a href="">Lifestyle</a></li>
-                                                            <li class="tag_item"><a href="">Quote</a></li>
-                                                            <li class="tag_item"><a href="">Travel</a></li>
-                                                            <li class="tag_item"><a href="">Writing</a></li>
+                                                        <ul id="tagCloud2">
+                                                            <li class="tag_item" th:each="tag : ${postInfo.tagList}"><a th:text="${tag}"></a></li>
                                                         </ul>
                                                     </div>
                                                     <div class="xoxo_fn_author_info">
@@ -639,8 +640,8 @@
                                                 </div>
                                             </div>
                                             <div class="xoxo_fn_pnb" data-status="yes">
-                                                <div class="prev item" title="Do You Need to Change Yourself" data-img="yes">
-                                                    <a class="full_link" href=""></a>
+                                                <div class="prev item" data-img="yes" th:if="${postInfo.prePostInfo}">
+                                                    <a class="full_link" th:href="@{'/post/' + ${postInfo.prePostInfo.id}}"></a>
                                                     <p class="fn_desc">
                                                         <span>
                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -657,7 +658,7 @@
                                                         </span>
                                                     </p>
                                                     <div class="item_in">
-                                                        <div class="img frenify-ready" th:style="'background-image: url(' + @{/images/blog/09.jpg} + ');'">
+                                                        <div class="img frenify-ready" th:if="${postInfo.prePostInfo.imageList.size() > 0}" th:style="'background-image: url(' + ${postInfo.prePostInfo.imageList[0]} + ');'">
                                                         </div>
                                                         <div class="desc">
                                                             <div class="fn__meta">
@@ -680,18 +681,18 @@
                                                                                 </path>
                                                                             </g>
                                                                         </svg>
-                                                                        Jan 5
+                                                                        <span th:text="${postInfo.prePostInfo.recordTime}"></span>
                                                                     </span>
                                                                     <span class="meta_item meta_category">
-                                                                        <a class=" fn_last_category" href="">Travel</a>
+                                                                        <a class=" fn_last_category" th:href="@{'/category/' + ${postInfo.prePostInfo.category}}" th:text="${postInfo.prePostInfo.category}"></a>
                                                                     </span>
                                                                 </p>
                                                             </div>
-                                                            <h3 class="fn_title"><a href="">Do You Need to Change Yourself</a></h3>
+                                                            <h3 class="fn_title"><a th:href="@{'/post/' + ${postInfo.prePostInfo.id}}" th:text="${postInfo.prePostInfo.title}"></a></h3>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="next item" title="A Love Letter to Los Angeles" data-img="yes"><a class="full_link" href=""></a>
+                                                <div class="next item" data-img="yes" th:if="${postInfo.nextPostInfo}"><a class="full_link" th:href="@{'/post/' + ${postInfo.nextPostInfo.id}}"></a>
                                                     <p class="fn_desc">
                                                         <span>
                                                             Next Post
@@ -708,7 +709,7 @@
                                                         </span>
                                                     </p>
                                                     <div class="item_in">
-                                                        <div class="img frenify-ready" th:style="'background-image: url(' + @{/images/blog/08.jpg} + ');'">
+                                                        <div class="img frenify-ready" th:if="${postInfo.nextPostInfo.imageList.size() > 0}" th:style="'background-image: url(' + ${postInfo.nextPostInfo.imageList[0]} + ');'">
                                                         </div>
                                                         <div class="desc">
                                                             <div class="fn__meta">
@@ -731,14 +732,14 @@
                                                                                 </path>
                                                                             </g>
                                                                         </svg>
-                                                                        Jan 5
+                                                                        <span th:text="${postInfo.nextPostInfo.recordTime}"></span>
                                                                     </span>
                                                                     <span class="meta_item meta_category">
-                                                                        <a class=" fn_last_category" href="">Travel</a>
+                                                                        <a class=" fn_last_category" th:href="@{'/category/' + ${postInfo.nextPostInfo.category}}" th:text="${postInfo.nextPostInfo.category}"></a>
                                                                     </span>
                                                                 </p>
                                                             </div>
-                                                            <h3 class="fn_title"><a href="">A Love Letter to Los Angeles</a></h3>
+                                                            <h3 class="fn_title"><a th:href="@{'/post/' + ${postInfo.nextPostInfo.id}}" th:text="${postInfo.nextPostInfo.title}"></a></h3>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -879,36 +880,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="widget_block clear widget_xoxo_top_articles">
-                                                        <div>
-                                                            <div class="wid-title">
-                                                                <span class="text">Popular Posts</span>
-                                                                <span class="icon"></span>
-                                                            </div>
-                                                            <div class="xoxo_fn_widget_beta_articles">
-                                                                <div class="top_article">
-                                                                    <div class="item_img">
-                                                                        <a class="full_link" href=""></a>
-                                                                        <img th:src="@{/images/blog/06.jpg}" alt="blog-img">
-                                                                    </div>
-                                                                    <h3 class="fn_title"><a href="">Leaving San Francisco</a></h3>
-                                                                    <div class="t_rail">
-                                                                        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="bottom_article">
-                                                                    <a class="full_link" href=""></a>
-                                                                    <div class="item_img frenify-ready" th:style="'background-image: url(' + @{/images/blog/12.jpg} + ');'"> </div>
-                                                                    <h3 class="fn_title"><a href="">Every Day is a Trip</a></h3>
-                                                                </div>
-                                                                <div class="bottom_article">
-                                                                    <a class="full_link" href=""></a>
-                                                                    <div class="item_img frenify-ready" th:style="'background-image: url(' + @{/images/blog/13.jpg} + ');'"></div>
-                                                                    <h3 class="fn_title"><a href="">Your Table Sugar May Not Be Vegan</a></h3>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     <div class="widget_block clear widget_xoxo_custom_categories">
                                                         <div>
                                                             <div class="wid-title">
@@ -917,66 +888,12 @@
                                                             </div>
                                                             <div class="xoxo_fn_ccategories">
                                                                 <ul>
-                                                                    <li>
+                                                                    <li th:each="category, index : ${menus[1].childrenList}">
                                                                         <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
+                                                                            <a class="full_link" th:href="@{'/category/' + ${category.name}}"></a>
                                                                             <span class="cat_title">
-                                                                                <span class="name">Uncategorized</span>
-                                                                            <span class="count">1</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
-                                                                            <span class="cat_title">
-                                                                                <span class="name">Fashion</span>
-                                                                            <span class="count">2</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
-                                                                            <span class="cat_title">
-                                                                                <span class="name">Health</span>
-                                                                            <span class="count">4</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
-                                                                            <span class="cat_title">
-                                                                                <span class="name">Food</span>
-                                                                            <span class="count">2</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
-                                                                            <span class="cat_title">
-                                                                                <span class="name">Interior</span>
-                                                                            <span class="count">4</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
-                                                                            <span class="cat_title">
-                                                                                <span class="name">Lifestyle</span>
-                                                                            <span class="count">6</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="category__item">
-                                                                            <a class="full_link" href=""></a>
-                                                                            <span class="cat_title">
-                                                                                <span class="name">Travel</span>
-                                                                            <span class="count">7</span>
+                                                                                <span class="name" th:text="${category.name}"></span>
+                                                                            <span class="count" th:text="${index.index + 1}"></span>
                                                                             </span>
                                                                         </div>
                                                                     </li>
@@ -990,23 +907,8 @@
                                                                 <span class="text">Tag Cloud</span>
                                                                 <span class="icon"></span>
                                                             </div>
-                                                            <div class="tagcloud">
-                                                                <a href="">Writing</a>
-                                                                <a href="">Blog</a>
-                                                                <a href="">Image</a>
-                                                                <a href="">Travel</a>
-                                                                <a href="">Fashion</a>
-                                                                <a href="">Health</a>
-                                                                <a href="">Interior</a>
-                                                                <a href="">Lifestyle</a>
-                                                                <a href="">Design</a>
-                                                                <a href="">Food</a>
-                                                                <a href="">Technology</a>
-                                                                <a href="">Quote</a>
-                                                                <a href="">Audio</a>
-                                                                <a href="">Gallery</a>
-                                                                <a href="">Video</a>
-                                                                <a href="">Humor</a>
+                                                            <div class="tagcloud" id="tagCloud">
+                                                                <a th:each="tag : ${tags}" th:text="${tag}"></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1131,6 +1033,45 @@
     <!--================= Main JS =================-->
     <script th:src="@{/js/main.js}"></script>
     <!--================= Script End Here =================-->
+
+    <script>
+        let selectedTags = [];
+
+        function handleElementClick(event) {
+            const element = event.target;
+            event.preventDefault();
+
+            if (event.ctrlKey || event.metaKey) {
+                element.classList.toggle('tag-selected');
+
+                if (element.classList.contains('tag-selected')) {
+                    selectedTags.push(element.textContent.trim());
+                } else {
+                    selectedTags = selectedTags.filter(el => el !== element.textContent.trim());
+                }
+            }else {
+                console.log('单纯单击==========>')
+            }
+        }
+
+        function handleKeyUp(event) {
+            if (event.key === 'Control') {
+                console.log('Final selected elements:', selectedTags);
+            }
+        }
+
+        const elements = document.querySelectorAll('#tagCloud a');
+        elements.forEach(el => {
+            el.addEventListener('click', handleElementClick);
+        });
+
+        const elements2 = document.querySelectorAll('#tagCloud2 a');
+        elements2.forEach(el => {
+            el.addEventListener('click', handleElementClick);
+        });
+
+        document.addEventListener('keyup', handleKeyUp);
+    </script>
 </body>
 
 </html>

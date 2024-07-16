@@ -121,7 +121,7 @@ public class MybatisFlexGen {
                 // 需要忽略的列/父类定义的列
                 .setIgnoreColumns("record_name", "record_time", "update_name", "update_time")
                 // 生成的表名,未配置时生成所有表
-                .setGenerateTable("t_tag");
+                .setGenerateTable("t_post_tag");
         ;
 
         return globalConfig;
