@@ -1,6 +1,8 @@
 package com.zhl.ialcohol.util;
 
 import com.zhl.ialcohol.entity.Menu;
+import com.zhl.ialcohol.entity.Post;
+import com.zhl.ialcohol.vo.response.LatestPostVO;
 import com.zhl.ialcohol.vo.response.MenuVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -16,4 +18,6 @@ public interface BeanCopyUtil {
     BeanCopyUtil INSTANCE = Mappers.getMapper(BeanCopyUtil.class);
 
     MenuVO menuToMenuVO(Menu menu);
+
+    LatestPostVO postToLatestPostVO(Post post);
 }

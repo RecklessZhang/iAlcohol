@@ -22,6 +22,12 @@
     <link rel="stylesheet" th:href="@{/css/plugins/swiper.css}">
     <!--================= Style CSS =================-->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .tag-selected {
+            background-color: #ffcc00;;
+        }
+    </style>
 </head>
 
 <body>
@@ -232,7 +238,7 @@
                     </div>
                     <div class="search_opener">
                         <a href="#">
-                            <span class="text">搜索</span>
+                            <span class="text">search</span>
                             <span class="icon">
 							<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="488.000000pt" height="488.000000pt" viewBox="0 0 488.000000 488.000000" preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
 								<g transform="translate(0.000000,488.000000) scale(0.100000,-0.100000)" stroke="none">
@@ -672,7 +678,7 @@
                                                     <span class="icon"></span>
                                                 </div>
                                                 <div class="xoxo_fn_widget_author">
-                                                    <div class="info_img" th:style="'background-image: url(' + @{/images/blog/author.jpg} + ');'">
+                                                    <div class="info_img" th:style="'background-image: url(' + @{/images/author.jpg} + ');'">
                                                         <a class="full_link" th:href="'https://blog.qnmdmyy.top'" target="_blank"></a>
                                                         <div class="abs_img"></div>
                                                     </div>
@@ -681,7 +687,7 @@
                                                             <h3 class="fn_title">
                                                                 <a th:href="'https://blog.qnmdmyy.top'" target="_blank">小镇青年</a>
                                                             </h3>
-                                                            <p class="fn_desc">无论如何,先来杯啤酒吧.
+                                                            <p class="fn_desc">Anyway, let's have a beer first
                                                             </p>
                                                         </div>
                                                         <div class="author_bottom">
@@ -756,8 +762,8 @@
                                                         <span class="text">Tag Cloud</span>
                                                         <span class="icon"></span>
                                                     </div>
-                                                    <div class="tagcloud">
-                                                        <a href="" th:each="tag : ${tags}" th:text="${tag}"></a>
+                                                    <div class="tagcloud" id="tagCloud">
+                                                        <a th:each="tag : ${tags}" th:text="${tag}"></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -881,6 +887,40 @@
     <!--================= Main JS =================-->
     <script th:src="@{/js/main.js}"></script>
     <!--================= Script End Here =================-->
+
+    <script>
+        let selectedTags = [];
+
+        function handleElementClick(event) {
+            const element = event.target;
+            event.preventDefault();
+
+            if (event.ctrlKey || event.metaKey) {
+                element.classList.toggle('tag-selected');
+
+                if (element.classList.contains('tag-selected')) {
+                    selectedTags.push(element.textContent.trim());
+                } else {
+                    selectedTags = selectedTags.filter(el => el !== element.textContent.trim());
+                }
+            }else {
+                console.log('单纯单击==========>')
+            }
+        }
+
+        function handleKeyUp(event) {
+            if (event.key === 'Control') {
+                console.log('Final selected elements:', selectedTags);
+            }
+        }
+
+        const elements = document.querySelectorAll('#tagCloud a');
+        elements.forEach(el => {
+            el.addEventListener('click', handleElementClick);
+        });
+
+        document.addEventListener('keyup', handleKeyUp);
+    </script>
 </body>
 
 </html>

@@ -232,7 +232,7 @@
                     </div>
                     <div class="search_opener">
                         <a href="#">
-                            <span class="text">搜索</span>
+                            <span class="text">search</span>
                             <span class="icon">
 							<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="488.000000pt" height="488.000000pt" viewBox="0 0 488.000000 488.000000" preserveAspectRatio="xMidYMid meet" class="fn__svg  replaced-svg">
 								<g transform="translate(0.000000,488.000000) scale(0.100000,-0.100000)" stroke="none">
@@ -383,14 +383,14 @@
     <div class="xoxo_fn_pagetitle">
         <div class="container">
             <div class="pagetitle">
-                <h3 class="fn__title">Travel</h3>
+                <h3 class="fn__title" th:text="${categoryPostInfo.categoryName}"></h3>
                 <div class="xoxo_fn_breadcrumbs">
                     <ul id="breadcrumbs" class="breadcrumbs">
                         <li class="item-home">
                             <a class="bread-link bread-home" th:href="@{/}" title="Home">Home</a>
                         </li>
                         <li class="separator separator-home"> <span></span></li>
-                        <li class="item-current item-cat"><span class="bread-current bread-cat">Travel</span></li>
+                        <li class="item-current item-cat"><span class="bread-current bread-cat" th:text="${categoryPostInfo.categoryName}"></span></li>
                     </ul>
                 </div>
             </div>
@@ -404,7 +404,7 @@
         <div class="container blog_layout_classic_container">
             <div class="xoxo_fn_bloglist blog_layout_classic">
                 <ul>
-                    <li class="post_item">
+                    <li class="post_item" th:each="post : ${categoryPostInfo.latestPostVOList}">
                         <div class="blog__item blog__item_classic">
                             <div class="fn__meta">
                                 <p><span class="meta_item meta_date"><svg xmlns="http://www.w3.org/2000/svg"
@@ -421,213 +421,24 @@
                                                     d="M0 1802 c0 -1179 2 -1376 15 -1425 47 -182 180 -315 362 -362 50 -13 309 -15 1973 -15 2099 0 1966 -4 2089 58 73 36 163 128 201 202 63 125 60 41 60 1542 l0 1368 -2350 0 -2350 0 0 -1368z m1390 483 l0 -305 -305 0 -305 0 0 298 c0 164 3 302 7 305 3 4 141 7 305 7 l298 0 0 -305z m1260 0 l0 -305 -300 0 -300 0 0 305 0 305 300 0 300 0 0 -305z m1268 -2 l2 -303 -305 0 -305 0 0 305 0 305 303 -2 302 -3 3 -302z m-2528 -1273 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z m1260 0 l0 -300 -300 0 -300 0 0 300 0 300 300 0 300 0 0 -300z m1270 0 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z">
                                                 </path>
                                             </g>
-                                        </svg>Jan 5</span><span class="meta_item meta_category"><a
+                                        </svg><span th:text="${post.recordTime}"></span></span></span><span class="meta_item meta_category"><a
                                             class=" fn_last_category"
-                                            href="">Travel</a></span>
+                                            th:text="${post.category}"></a></span>
                                 </p>
                             </div>
                             <div class="bottom_holder">
-                                <div class="blog__image"><a href=""><img th:src="@{/images/blog/06.jpg}" alt="Post Image"></a></div>
+                                <div class="blog__image"><a th:href="@{'/post/' + ${post.id}}"><img th:src="${post.imageList[0]}" alt="Post Image"></a></div>
                                 <div class="title_holder">
                                     <div class="title">
-                                        <h3><a href="">Leaving
-                                                San Francisco</a></h3>
+                                        <h3><a th:href="@{'/post/' + ${post.id}}" th:text="${post.title}"></a></h3>
                                     </div>
                                     <div class="author"><a href="https://blog.qnmdmyy.top" target="_blank">小镇青年</a>
                                     </div>
                                     <div class="desc">
-                                        <p>It’s remarkable to watch a five-year-old draw, void of any anxiety about what
-                                            the world will think. We all start our lives creatively confident, happy to
-                                            create and share our work with pride. And then, as we age, our comfort with
-                                            creative expression declines. We’re discouraged by the learning curve of
-                                            creative skills and tools, </p>
+                                        <p th:text="${post.content}"></p>
                                     </div>
                                     <div class="read_more">
-                                        <div class="read_in"><a href=""><span
-                                                    class="text">Read More</span><span class="triple"></span></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="post_item">
-                        <div class="blog__item blog__item_classic">
-                            <div class="fn__meta">
-                                <p><span class="meta_item meta_date"><svg xmlns="http://www.w3.org/2000/svg"
-                                            version="1.0" width="470.000000pt" height="470.000000pt"
-                                            viewBox="0 0 470.000000 470.000000" preserveAspectRatio="xMidYMid meet"
-                                            class="fn__svg  replaced-svg">
-
-                                            <g transform="translate(0.000000,470.000000) scale(0.100000,-0.100000)"
-                                                stroke="none">
-                                                <path
-                                                    d="M1224 4666 l-34 -34 0 -210 0 -211 -412 -3 -413 -3 -75 -36 c-136 -65 -236 -182 -272 -318 -13 -51 -17 -110 -17 -253 l-1 -188 2350 0 2350 0 0 181 c0 211 -14 288 -66 376 -54 90 -118 149 -213 196 l-84 42 -414 3 -413 3 0 211 0 210 -34 34 -34 34 -146 0 -146 0 -32 -29 -33 -29 -3 -216 -3 -216 -730 0 -729 0 0 195 c0 293 -2 295 -218 295 l-144 0 -34 -34z">
-                                                </path>
-                                                <path
-                                                    d="M0 1802 c0 -1179 2 -1376 15 -1425 47 -182 180 -315 362 -362 50 -13 309 -15 1973 -15 2099 0 1966 -4 2089 58 73 36 163 128 201 202 63 125 60 41 60 1542 l0 1368 -2350 0 -2350 0 0 -1368z m1390 483 l0 -305 -305 0 -305 0 0 298 c0 164 3 302 7 305 3 4 141 7 305 7 l298 0 0 -305z m1260 0 l0 -305 -300 0 -300 0 0 305 0 305 300 0 300 0 0 -305z m1268 -2 l2 -303 -305 0 -305 0 0 305 0 305 303 -2 302 -3 3 -302z m-2528 -1273 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z m1260 0 l0 -300 -300 0 -300 0 0 300 0 300 300 0 300 0 0 -300z m1270 0 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z">
-                                                </path>
-                                            </g>
-                                        </svg>Jan 5</span><span class="meta_item meta_category"><a
-                                            class=" fn_last_category"
-                                            href="">Lifestyle</a></span>
-                                </p>
-                            </div>
-                            <div class="bottom_holder">
-                                <div class="blog__image"><a href=""><img th:src="@{/images/blog/07.jpg}" alt="Post Image"></a></div>
-                                <div class="title_holder">
-                                    <div class="title">
-                                        <h3><a href="">What
-                                                Marriage Means to Me</a></h3>
-                                    </div>
-                                    <div class="author"><a href="https://blog.qnmdmyy.top" target="_blank">小镇青年</a>
-                                    </div>
-                                    <div class="desc">
-                                        <p>It’s remarkable to watch a five-year-old draw, void of any anxiety about what
-                                            the world will think. We all start our lives creatively confident, happy to
-                                            create and share our work with pride. And then, as we age, our comfort with
-                                            creative expression declines. We’re discouraged by the learning curve of
-                                            creative skills and tools, </p>
-                                    </div>
-                                    <div class="read_more">
-                                        <div class="read_in"><a href=""><span
-                                                    class="text">Read More</span><span class="triple"></span></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="post_item">
-                        <div class="blog__item blog__item_classic">
-                            <div class="fn__meta">
-                                <p><span class="meta_item meta_date"><svg xmlns="http://www.w3.org/2000/svg"
-                                            version="1.0" width="470.000000pt" height="470.000000pt"
-                                            viewBox="0 0 470.000000 470.000000" preserveAspectRatio="xMidYMid meet"
-                                            class="fn__svg  replaced-svg">
-
-                                            <g transform="translate(0.000000,470.000000) scale(0.100000,-0.100000)"
-                                                stroke="none">
-                                                <path
-                                                    d="M1224 4666 l-34 -34 0 -210 0 -211 -412 -3 -413 -3 -75 -36 c-136 -65 -236 -182 -272 -318 -13 -51 -17 -110 -17 -253 l-1 -188 2350 0 2350 0 0 181 c0 211 -14 288 -66 376 -54 90 -118 149 -213 196 l-84 42 -414 3 -413 3 0 211 0 210 -34 34 -34 34 -146 0 -146 0 -32 -29 -33 -29 -3 -216 -3 -216 -730 0 -729 0 0 195 c0 293 -2 295 -218 295 l-144 0 -34 -34z">
-                                                </path>
-                                                <path
-                                                    d="M0 1802 c0 -1179 2 -1376 15 -1425 47 -182 180 -315 362 -362 50 -13 309 -15 1973 -15 2099 0 1966 -4 2089 58 73 36 163 128 201 202 63 125 60 41 60 1542 l0 1368 -2350 0 -2350 0 0 -1368z m1390 483 l0 -305 -305 0 -305 0 0 298 c0 164 3 302 7 305 3 4 141 7 305 7 l298 0 0 -305z m1260 0 l0 -305 -300 0 -300 0 0 305 0 305 300 0 300 0 0 -305z m1268 -2 l2 -303 -305 0 -305 0 0 305 0 305 303 -2 302 -3 3 -302z m-2528 -1273 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z m1260 0 l0 -300 -300 0 -300 0 0 300 0 300 300 0 300 0 0 -300z m1270 0 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z">
-                                                </path>
-                                            </g>
-                                        </svg>Jan 5</span><span class="meta_item meta_category"><a
-                                            class=" fn_last_category"
-                                            href="">Travel</a></span>
-                                </p>
-                            </div>
-                            <div class="bottom_holder">
-                                <div class="blog__image"><a href=""><img th:src="@{/images/blog/08.jpg}" alt="Post Image"></a></div>
-                                <div class="title_holder">
-                                    <div class="title">
-                                        <h3><a href="">A
-                                                Love Letter to Los Angeles</a></h3>
-                                    </div>
-                                    <div class="author"><a href="https://blog.qnmdmyy.top" target="_blank">小镇青年</a>
-                                    </div>
-                                    <div class="desc">
-                                        <p>It’s remarkable to watch a five-year-old draw, void of any anxiety about what
-                                            the world will think. We all start our lives creatively confident, happy to
-                                            create and share our work with pride. And then, as we age, our comfort with
-                                            creative expression declines. We’re discouraged by the learning curve of
-                                            creative skills and tools, </p>
-                                    </div>
-                                    <div class="read_more">
-                                        <div class="read_in"><a href=""><span
-                                                    class="text">Read More</span><span class="triple"></span></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="post_item">
-                        <div class="blog__item blog__item_classic">
-                            <div class="fn__meta">
-                                <p><span class="meta_item meta_date"><svg xmlns="http://www.w3.org/2000/svg"
-                                            version="1.0" width="470.000000pt" height="470.000000pt"
-                                            viewBox="0 0 470.000000 470.000000" preserveAspectRatio="xMidYMid meet"
-                                            class="fn__svg  replaced-svg">
-
-                                            <g transform="translate(0.000000,470.000000) scale(0.100000,-0.100000)"
-                                                stroke="none">
-                                                <path
-                                                    d="M1224 4666 l-34 -34 0 -210 0 -211 -412 -3 -413 -3 -75 -36 c-136 -65 -236 -182 -272 -318 -13 -51 -17 -110 -17 -253 l-1 -188 2350 0 2350 0 0 181 c0 211 -14 288 -66 376 -54 90 -118 149 -213 196 l-84 42 -414 3 -413 3 0 211 0 210 -34 34 -34 34 -146 0 -146 0 -32 -29 -33 -29 -3 -216 -3 -216 -730 0 -729 0 0 195 c0 293 -2 295 -218 295 l-144 0 -34 -34z">
-                                                </path>
-                                                <path
-                                                    d="M0 1802 c0 -1179 2 -1376 15 -1425 47 -182 180 -315 362 -362 50 -13 309 -15 1973 -15 2099 0 1966 -4 2089 58 73 36 163 128 201 202 63 125 60 41 60 1542 l0 1368 -2350 0 -2350 0 0 -1368z m1390 483 l0 -305 -305 0 -305 0 0 298 c0 164 3 302 7 305 3 4 141 7 305 7 l298 0 0 -305z m1260 0 l0 -305 -300 0 -300 0 0 305 0 305 300 0 300 0 0 -305z m1268 -2 l2 -303 -305 0 -305 0 0 305 0 305 303 -2 302 -3 3 -302z m-2528 -1273 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z m1260 0 l0 -300 -300 0 -300 0 0 300 0 300 300 0 300 0 0 -300z m1270 0 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z">
-                                                </path>
-                                            </g>
-                                        </svg>Jan 5</span><span class="meta_item meta_category"><a
-                                            class=" fn_last_category"
-                                            href="">Travel</a></span>
-                                </p>
-                            </div>
-                            <div class="bottom_holder">
-                                <div class="blog__image"><a href=""><img th:src="@{/images/blog/09.jpg}" alt="Post Image"></a></div>
-                                <div class="title_holder">
-                                    <div class="title">
-                                        <h3><a href="">Do
-                                                You Need to Change Yourself</a></h3>
-                                    </div>
-                                    <div class="author"><a href="https://blog.qnmdmyy.top" target="_blank">小镇青年</a>
-                                    </div>
-                                    <div class="desc">
-                                        <p>It’s remarkable to watch a five-year-old draw, void of any anxiety about what
-                                            the world will think. We all start our lives creatively confident, happy to
-                                            create and share our work with pride. And then, as we age, our comfort with
-                                            creative expression declines. We’re discouraged by the learning curve of
-                                            creative skills and tools, </p>
-                                    </div>
-                                    <div class="read_more">
-                                        <div class="read_in"><a href=""><span
-                                                    class="text">Read More</span><span class="triple"></span></a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="post_item">
-                        <div class="blog__item blog__item_classic">
-                            <div class="fn__meta">
-                                <p><span class="meta_item meta_date"><svg xmlns="http://www.w3.org/2000/svg"
-                                            version="1.0" width="470.000000pt" height="470.000000pt"
-                                            viewBox="0 0 470.000000 470.000000" preserveAspectRatio="xMidYMid meet"
-                                            class="fn__svg  replaced-svg">
-
-                                            <g transform="translate(0.000000,470.000000) scale(0.100000,-0.100000)"
-                                                stroke="none">
-                                                <path
-                                                    d="M1224 4666 l-34 -34 0 -210 0 -211 -412 -3 -413 -3 -75 -36 c-136 -65 -236 -182 -272 -318 -13 -51 -17 -110 -17 -253 l-1 -188 2350 0 2350 0 0 181 c0 211 -14 288 -66 376 -54 90 -118 149 -213 196 l-84 42 -414 3 -413 3 0 211 0 210 -34 34 -34 34 -146 0 -146 0 -32 -29 -33 -29 -3 -216 -3 -216 -730 0 -729 0 0 195 c0 293 -2 295 -218 295 l-144 0 -34 -34z">
-                                                </path>
-                                                <path
-                                                    d="M0 1802 c0 -1179 2 -1376 15 -1425 47 -182 180 -315 362 -362 50 -13 309 -15 1973 -15 2099 0 1966 -4 2089 58 73 36 163 128 201 202 63 125 60 41 60 1542 l0 1368 -2350 0 -2350 0 0 -1368z m1390 483 l0 -305 -305 0 -305 0 0 298 c0 164 3 302 7 305 3 4 141 7 305 7 l298 0 0 -305z m1260 0 l0 -305 -300 0 -300 0 0 305 0 305 300 0 300 0 0 -305z m1268 -2 l2 -303 -305 0 -305 0 0 305 0 305 303 -2 302 -3 3 -302z m-2528 -1273 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z m1260 0 l0 -300 -300 0 -300 0 0 300 0 300 300 0 300 0 0 -300z m1270 0 l0 -300 -305 0 -305 0 0 300 0 300 305 0 305 0 0 -300z">
-                                                </path>
-                                            </g>
-                                        </svg>Jan 5</span><span class="meta_item meta_category"><a
-                                            class=" fn_last_category"
-                                            href="">Travel</a></span>
-                                </p>
-                            </div>
-                            <div class="bottom_holder">
-                                <div class="blog__image"><a href=""><img th:src="@{/images/blog/10.jpg}" alt="Post Image"></a></div>
-                                <div class="title_holder">
-                                    <div class="title">
-                                        <h3><a href="">Famous
-                                                Works of Literature</a></h3>
-                                    </div>
-                                    <div class="author"><a href="https://blog.qnmdmyy.top" target="_blank">小镇青年</a>
-                                    </div>
-                                    <div class="desc">
-                                        <p>It’s remarkable to watch a five-year-old draw, void of any anxiety about what
-                                            the world will think. We all start our lives creatively confident, happy to
-                                            create and share our work with pride. And then, as we age, our comfort with
-                                            creative expression declines. We’re discouraged by the learning curve of
-                                            creative skills and tools, </p>
-                                    </div>
-                                    <div class="read_more">
-                                        <div class="read_in"><a href=""><span
+                                        <div class="read_in"><a th:href="@{'/post/' + ${post.id}}"><span
                                                     class="text">Read More</span><span class="triple"></span></a></div>
                                     </div>
                                 </div>
@@ -642,9 +453,9 @@
                 <div class="pag_in">
                     <div class="pag_inner"><span class="left_wing"></span><span class="right_wing"></span>
                         <ul>
-                            <li class="active"><span class="current">1</span></li>
-                            <li><a href="" class="inactive">2</a></li>
-                            <li><a href="" class="inactive">3</a></li>
+                            <li><a th:href="@{'/category/' + ${categoryPostInfo.categoryName} + '/' + ${pageNum - 1}}" class="inactive" th:if="${pageNum != 1}"><</a></li>
+                            <li class="active"><span class="current" th:text="${pageNum}"></span></li>
+                            <li><a th:href="@{'/category/' + ${categoryPostInfo.categoryName} + '/' + ${pageNum + 1}}" class="inactive" th:if="${((categoryPostInfo.totalCout / 5) + ((categoryPostInfo.totalCout % 5) > 0 ? 1 : 0)) > pageNum}">></a></li>
                         </ul>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ package com.zhl.ialcohol.controller;
 import com.zhl.ialcohol.model.Constant;
 import com.zhl.ialcohol.service.IPostService;
 import com.zhl.ialcohol.service.ITagService;
+import com.zhl.ialcohol.vo.response.CategoryPostVO;
 import com.zhl.ialcohol.vo.response.LatestPostVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,6 @@ public class RouteController {
     /***
      * description: 路由到首页
      * @author: ZhangHL
-     * @param tmp
      * @return:
     */
     @GetMapping(value = {"/", "/home", "/index"})
@@ -53,7 +53,7 @@ public class RouteController {
         List<String> tags = tagService.getUndeletedTags();
         model.addAttribute("tags", tags);
 
-        Integer pageNum = new Random().nextInt(2) + 1;
+        Integer pageNum = new Random().nextInt(5) + 1;
 
         return "index-" + tmp;
     }
@@ -64,10 +64,14 @@ public class RouteController {
      * @param categoryName
      * @return:
     */
-    @GetMapping("/category/{categoryName}")
-    public String routeToCategory(@PathVariable String categoryName, Model model) {
+    @GetMapping("/category/{categoryName}/{pageNum}")
+    public String routeToCategory(@PathVariable String categoryName, @PathVariable Integer pageNum, Model model) {
+        model.addAttribute("pageNum", pageNum);
         // 从内存中获取菜单
         model.addAttribute("menus", Constant.menuTree);
+        // 按基酒分页查询,默认获取5条数据
+        CategoryPostVO categoryPostInfo = postService.getCategoryPosts(pageNum, 5, categoryName);
+        model.addAttribute("categoryPostInfo", categoryPostInfo);
 
         return "category";
     }
