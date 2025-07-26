@@ -1,0 +1,6 @@
+spring:
+  # Mysql配置
+  datasource:
+    url: jdbc:mysql://sql.wsfdb.cn:3306/recklessZzziAlcohol?useInformationSchema=true&characterEncoding=utf-8&useSSL=false
+    username: recklessZzziAlcohol
+    password: root

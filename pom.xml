@@ -103,6 +103,18 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>top.qnmdmyy.plugins</groupId>
+                <artifactId>docker-image-builder</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <configuration>
+                    <imageName>i-alcohol</imageName>
+                    <repositoryUrl>registry.cn-hangzhou.aliyuncs.com</repositoryUrl>
+                    <repositoryNamespace>projects_space</repositoryNamespace>
+                    <repositoryUsername>aliyun6967465092</repositoryUsername>
+                    <repositoryPassword>zhl0619..</repositoryPassword>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
